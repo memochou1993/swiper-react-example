@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useRef } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+
+const IMAGE_BASE_URL = 'https://raw.githubusercontent.com/memochou1993/nft-leopard-cat-images/main/output';
 
 function App() {
+  const swiperRef = useRef();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <button onClick={() => swiperRef.current?.slidePrev()}>Prev</button>
+      <button onClick={() => swiperRef.current?.slideNext()}>Next</button>
+      <Swiper
+        onBeforeInit={(swiper) => {
+          swiperRef.current = swiper;
+        }}
+        onSwiper={(swiper) => console.log(swiper)}
+      >
+        {
+          [...Array(10).keys()].map((n) => (
+            <SwiperSlide key={n}>
+              <img src={`${IMAGE_BASE_URL}/${n}.png`} alt={n} />
+            </SwiperSlide>
+          ))
+        }
+      </Swiper>
+    </>
   );
 }
 
